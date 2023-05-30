@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import homeBlog from '../../../public/homeBlog.png';
+import homeBlog from '../../../public/homeBlog.jpg';
 import Loading from "../loading";
 export default function Blog() {
     const [isLoading, setIsLoading] = useState(true);
