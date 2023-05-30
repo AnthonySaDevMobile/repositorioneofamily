@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Intro';
+  src: url('../fonts/introT.otf') format('opentype');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Intro', sans-serif;
+}
+
+.headerClass{
+  background: rgba(225, 205, 191, 0.51);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6.4px);
+  -webkit-backdrop-filter: blur(6.4px);
+  border: 3px solid white;
+}
+
+.white-image {
+  filter: brightness(0) invert(1);
+}
+
+.MuiPagination-ul li button {
+  color: #FFF !important;
+  font-weight: 700 !important; /* Cor do texto dos botões normais */
+}
+
+.MuiPagination-ul li button.Mui-selected {
+  color: #d6b19f !important;
+  font-weight: 700 !important; /* Cor do texto do botão selecionado */
+}
+.MuiPagination-root {
+  padding-top: 8px !important; /* Espaçamento superior */
+  padding-bottom: 8px !important;
+}
+.MuiPagination-root .MuiPaginationItem-icon {
+  background-color: white !important; /* Define o background como branco */
+  border-radius: 100% !important;
+  color: #897876 !important;
+}
