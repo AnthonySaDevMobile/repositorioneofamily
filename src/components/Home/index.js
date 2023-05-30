@@ -14,7 +14,7 @@ export default function HomeComponent() {
                     <Image src={Home} alt='home' className='object-cover object-center w-full h-screen md:rounded-b-[8rem] rounded-b-3xl brightness-75' />
                 </motion.div>
 
-                <div className='absolute top-1/4 md:top-1/3 md:left-10 left-2 text-[4rem]'>
+                <div className='absolute top-1/4 md:top-1/3 md:left-10 left-2 text-[4rem] md:text-[6rem]'>
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -25,7 +25,7 @@ export default function HomeComponent() {
                         initial={{ x: -200,  opacity:0 }}
                         animate={{ x: 0, opacity:1 }}
                         transition={{ duration: 1.5 }}
-                        className='text-lg md:text-xl  w-1/2 text-white font-semibold tracking-wider my-2'>É aquele que tem uma Saúde bucal equilibrada.</motion.p>
+                        className='text-lg md:text-3xl  w-1/2 text-white font-semibold tracking-wider my-2'>É aquele que tem uma Saúde bucal equilibrada.</motion.p>
                     <motion.button
                         initial={{ x: 320, opacity:0}}
                         animate={{ x: 0, opacity:1 }}

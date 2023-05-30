@@ -3,7 +3,7 @@ import imageSobre from '../../../public/001-59.jpg'
 export default function Sobre() {
     return (
         <div>
-            <main className='bg-[#d6b19f] w-10/12 m-auto relative font-semibold rounded-b-[3rem] text-[#ebe5da]'>
+            <main className='bg-[#d6b19f] w-10/12 m-auto relative font-extrabold rounded-b-[3rem] text-[#ebe5da]'>
                 <div className='md:flex items-center justify-around pt-10'>
                     <div className="md:w-1/3 pt-2 md:h-[650px] h-[400px] rounded-[8rem]">
                         <Image
