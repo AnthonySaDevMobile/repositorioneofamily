@@ -1,7 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import Home from '../../../public/homeBlog.png'
+import Home from '../../../public/homeBack.png'
 export default function HomeComponent() {
     return (
         <div>
