@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image';
 import { FaSpinner } from 'react-icons/fa';
-import logo from '../../../public/logo1.png';
+import logo from '../../../public/logoFooter.png';
 
 export default function Loading() {
  return  (
