@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion'
 import React from 'react'
 import Image from 'next/image'
-import Home from '../../../public/homeBackground.png'
+import Home from '../../../public/homeBack.png'
 export default function HomeComponent() {
     return (
         <div>

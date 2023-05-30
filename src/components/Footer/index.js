@@ -1,6 +1,5 @@
-import React from 'react'
 import Image from 'next/image'
-import footer from '../../../public/logo1.png'
+import footer from '../../../public/logoFooter.png'
 export default function Footer() {
   return (
     <div className='bg-[#897876] w-full h-fit flex mt-10 items-center justify-center md:py-10 py-6 rounded-tl-[6.5rem]'>
