@@ -30,7 +30,7 @@ export default function BlogComponent() {
         </div>
 
         <div className='flex md:flex-row flex-col gap-8'>
-          {blog.map((item) => (
+          {blog.slice(0, 4).map((item) => (
         <div key={item.id} className="w-full flex pb-5">
           <div className="bg-[#f4f1ea] flex flex-col justify-between rounded-[4rem] text-center">
             <div className="w-full">
