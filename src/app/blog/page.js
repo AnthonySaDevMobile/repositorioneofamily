@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import homeBlog from '../../../public/homeBlog.jpg';
 import Loading from "../loading";
+import Articles from "@/components/Articles/articles";
 export default function Blog() {
     const [isLoading, setIsLoading] = useState(true);
 
@@ -37,20 +38,9 @@ export default function Blog() {
                                 </div>
                             </div>
 
-                            <div className="flex lg:flex-row flex-col gap-10 lg:w-10/12 m-auto lg:mt-32 justify-between mt-10">
-                                <div className="lg:h-fit lg:w-1/6 lg:border-r-[6px] lg:border-b-[0px] border-b-[6px] border-[#897876] flex flex-col items-start text-left lg:text-xl px-2 py-4 md:pr-3">
-                                    <div className="mt-10 lg:flex lg:flex-col grid grid-cols-3 w-full gap-10 text-left items-start text-[#897876] font-extralight opacity-70">
-                                        <button>Clareamento</button>
-                                        <button>Tratamentos</button>
-                                        <button>Limpeza</button>
-                                        <button>Bruxismo</button>
-                                        <button>Aparelho</button>
-                                        <button>Outros</button>
-                                    </div>
-                                </div>
+                  
                                 <SelectArticle />
-
-                            </div>
+                         
                             <Contato />
                         </main>
                         <Footer />
