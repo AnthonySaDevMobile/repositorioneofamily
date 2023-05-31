@@ -14,22 +14,23 @@ SwiperCore.use([Pagination]);
 
 export default function ArticlesMobile() {
 
-
   const collectionRef = collection(db, "blog");
   const [blog, setBlog] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [filtered, setFiltered] = useState(blog);
+ 
   useEffect(() => {
     const getArticles = async () => {
       const data = await getDocs(collectionRef);
       const blogData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
       setBlog(blogData);
+      setFiltered(blogData);
     };
 
     getArticles();
+    handleCategoryChange("Todos")
   }, []);
-
 
 
   const [isLoading, setIsLoading] = useState(true);
@@ -72,8 +73,9 @@ export default function ArticlesMobile() {
     setFiltered(artigosFiltrados);
   };
 
-  const [activeIndex, setActiveIndex] = useState(0);
   const totalSlides = filtered.length; // Defina o número total de slides aqui
+  const [activeIndex, setActiveIndex] = useState(0);
+
   const swiperRef = useRef(null);
   const swiper = useSwiper();
 

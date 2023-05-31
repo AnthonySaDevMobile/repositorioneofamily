@@ -30,6 +30,7 @@ export default function Articles() {
     };
 
     getArticles();
+    handleCategoryChange("Todos")
   }, []);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -144,7 +145,7 @@ export default function Articles() {
                   ref={swiperRef}
                   navigation
                   onSlideChange={handleSlideChange}
-                  className="h-[1100px] w-[800px] md:w-auto lg:w-[1250px]"
+                  className="h-fit w-[800px] md:w-auto lg:w-[1250px]"
                 >
                   {filtered.reduce((slides, item, index) => {
                     if (index % 6 === 0) {
@@ -159,7 +160,7 @@ export default function Articles() {
                             {filtered.slice(index, index + 6).map((blogItem, subIndex) => (
                               <div
                                 key={subIndex}
-                                className="bg-[#f4f1ea] rounded-[4rem] text-center"
+                                className="bg-[#f4f1ea] rounded-[4rem] text-center flex flex-col justify-between"
                               >
                                 <div className="w-full">
                                   <img
@@ -169,11 +170,11 @@ export default function Articles() {
                                   />
                                 </div>
 
-                                <div className="pt-5 text-[#91817f] flex flex-col px-8 py-10 gap-5 relative">
+                                <div className="pt-5 text-[#91817f] flex flex-col px-8 gap-5 relative">
                                   <h1 className="text-[#d6b19f]">{blogItem.titulo}</h1>
                                   <p>{blogItem.resumo}</p>
                                   <div className="flex w-full items-center justify-center">
-                                    <button className="text-white bg-[#d6b19f] rounded-3xl w-6/12 text-sm -bottom-4 absolute py-2">
+                                    <button className="text-white bg-[#d6b19f] rounded-3xl w-6/12 text-sm mt-3 py-2">
                                       Continuar lendo
                                     </button>
                                   </div>
@@ -187,7 +188,7 @@ export default function Articles() {
                     return slides;
                   }, [])}
                 </Swiper>
-                <div className="bg-[#897876] w-fit m-auto rounded-[2rem]">
+                <div className="bg-[#897876] w-fit m-auto mt-10 rounded-[2rem]">
                   <Box display="flex" justifyContent="center">
                     <MuiPagination
                       count={totalSlides}
