@@ -173,12 +173,14 @@ export default function ArticlesMobile() {
                   ))}
                 </Swiper>
 
-                {filtered.length < 0 ?
-                  (<div className="flex gap-2 items-center justify-center h-full">
+                {filtered.length < 1 ?
+                  (
+                  <div className="flex gap-2 items-center justify-center h-full">
                     <p>Ainda não há artigos sobre o assunto</p>
                     <p className="animate-pulse text-3xl mr-1 mb-3" style={{ animationDelay: '0s' }}>.</p>
                     <p className="animate-pulse text-3xl mr-1 mb-3" style={{ animationDelay: '0.5s' }}>.</p>
-                    <p className="animate-pulse text-3xl mr-1 mb-3" style={{ animationDelay: '1s' }}>.</p></div>
+                    <p className="animate-pulse text-3xl mr-1 mb-3" style={{ animationDelay: '1s' }}>.</p>
+                    </div>
                   )
                   :
                   (<div className='bg-[#897876] w-fit  m-auto rounded-[2rem]'>
