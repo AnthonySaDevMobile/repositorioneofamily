@@ -48,7 +48,7 @@ export default function Articles() {
   }, []);
 
   useEffect(() => {
-    handleCategoryChange(selectedCategory); // Passar a categoria selecionada como argumento
+    handleCategoryChange(selectedCategory);
   }, [selectedCategory]);
 
   const handleCategoryChange = (category) => {
@@ -86,73 +86,80 @@ export default function Articles() {
   const handlePaginationChange = (event, page) => {
     setActiveIndex(page - 1);
     swiperRef.current.swiper.slideTo(page - 1);
+
   };
+
+
 
   return (
     <div>
       {
         isLoading ? <LoadingArticles /> : (
-          <>
-            <div className="flex lg:flex-row flex-col gap-10 lg:w-10/12 m-auto lg:mt-32 justify-between mt-10">
-              <div className="lg:h-fit lg:w-1/6 lg:border-r-[6px] lg:border-b-[0px] border-b-[6px] border-[#897876] flex flex-col items-start text-left lg:text-xl px-2 py-4 md:pr-3">
-                <div className="mt-10 lg:flex lg:flex-col grid grid-cols-3 w-full gap-10 text-left items-start text-[#897876] font-extralight opacity-70">
-                  <button
-                    className={`${selectedCategory === "Clareamento" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
-                      }`}
-                    onClick={() => handleCategoryChange("Clareamento")}
-                  >
-                    Clareamento
-                  </button>
-                  <button
-                    className={`${selectedCategory === "Tratamentos" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
-                      }`}
-                    onClick={() => handleCategoryChange("Tratamentos")}
-                  >
-                    Tratamentos
-                  </button>
-                  <button
-                    className={`${selectedCategory === "Limpeza" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
-                      }`}
-                    onClick={() => handleCategoryChange("Limpeza")}
-                  >
-                    Limpeza
-                  </button>
-                  <button
-                    className={`${selectedCategory === "Bruxismo" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
-                      }`}
-                    onClick={() => handleCategoryChange("Bruxismo")}
-                  >
-                    Bruxismo
-                  </button>
-                  <button
-                    className={`${selectedCategory === "Aparelho" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
-                      }`}
-                    onClick={() => handleCategoryChange("Aparelho")}
-                  >
-                    Aparelho
-                  </button>
-                  <button
-                    className={`${selectedCategory === "Outros" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
-                      }`}
-                    onClick={() => handleCategoryChange("Outros")}
-                  >
-                    Outros
-                  </button>
-                </div>
+          <div className="w-10/12 m-auto h-fit flex justify-between">
+          
+            <div className="border-r-[6px] mt-32 border-b-[0px] border-[#897876] flex flex-col items-start text-left px-4 py-4 pr-5 h-fit">
+              <div className="my-10 lg:flex lg:flex-col grid grid-cols-3  gap-10 text-left items-start text-[#897876] font-extralight opacity-70">
+                <button
+                  className={`${selectedCategory === "Clareamento" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
+                    }`}
+                  onClick={() => handleCategoryChange("Clareamento")}
+                >
+                  Clareamento
+                </button>
+                <button
+                  className={`${selectedCategory === "Tratamentos" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
+                    }`}
+                  onClick={() => handleCategoryChange("Tratamentos")}
+                >
+                  Tratamentos
+                </button>
+                <button
+                  className={`${selectedCategory === "Limpeza" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
+                    }`}
+                  onClick={() => handleCategoryChange("Limpeza")}
+                >
+                  Limpeza
+                </button>
+                <button
+                  className={`${selectedCategory === "Bruxismo" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
+                    }`}
+                  onClick={() => handleCategoryChange("Bruxismo")}
+                >
+                  Bruxismo
+                </button>
+                <button
+                  className={`${selectedCategory === "Aparelho" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
+                    }`}
+                  onClick={() => handleCategoryChange("Aparelho")}
+                >
+                  Aparelho
+                </button>
+                <button
+                  className={`${selectedCategory === "Outros" ? "text-[#554b4a] font-extrabold" : "text-[#b6aba5] font-extralight"
+                    }`}
+                  onClick={() => handleCategoryChange("Outros")}
+                >
+                  Outros
+                </button>
               </div>
+            </div>
+
+
+            <div className="flex flex-col ml-16 w-10/12 m-auto mt-32">
+
               <div>
                 <Swiper
                   ref={swiperRef}
                   navigation
                   onSlideChange={handleSlideChange}
-                  className="h-fit w-[800px] md:w-auto lg:w-[1250px]"
+                  className="h-fit flex items-end justify-end"
                 >
                   {filtered.reduce((slides, item, index) => {
                     if (index % 6 === 0) {
                       slides.push(
                         <SwiperSlide key={index}>
                           <motion.div
-                            className="grid grid-cols-3 gap-8"
+                            className="grid grid-cols-3 gap-4"
                             initial={{ y: 500 }}
                             animate={{ y: 0 }}
                             transition={{ duration: 1.2 }}
@@ -160,20 +167,20 @@ export default function Articles() {
                             {filtered.slice(index, index + 6).map((blogItem, subIndex) => (
                               <div
                                 key={subIndex}
-                                className="bg-[#f4f1ea] rounded-[4rem] text-center flex flex-col justify-between"
+                                className="bg-[#f4f1ea] rounded-[4rem] pb-5 text-center flex flex-col justify-between"
                               >
-                                <div className="w-full">
+                                <div className="">
                                   <img
                                     src={blogItem.imagem}
                                     alt={blogItem.titulo}
-                                    className="w-full cursor-pointer hover:brightness-50 transition-all ease-in-out delay-100 rounded-[4rem] h-[250px] object-cover"
+                                    className=" cursor-pointer hover:brightness-50 transition-all ease-in-out delay-100 rounded-[4rem] h-[250px] object-cover"
                                   />
                                 </div>
 
                                 <div className="pt-5 text-[#91817f] flex flex-col px-8 gap-5 relative">
                                   <h1 className="text-[#d6b19f]">{blogItem.titulo}</h1>
                                   <p>{blogItem.resumo}</p>
-                                  <div className="flex w-full items-center justify-center">
+                                  <div className="flex  items-center justify-center">
                                     <button className="text-white bg-[#d6b19f] rounded-3xl w-6/12 text-sm mt-3 py-2">
                                       Continuar lendo
                                     </button>
@@ -188,19 +195,27 @@ export default function Articles() {
                     return slides;
                   }, [])}
                 </Swiper>
-                <div className="bg-[#897876] w-fit m-auto mt-10 rounded-[2rem]">
-                  <Box display="flex" justifyContent="center">
-                    <MuiPagination
-                      count={totalSlides}
-                      page={activeIndex + 1}
-                      onChange={handlePaginationChange}
-                    // Define a cor do texto para branco
-                    />
-                  </Box>
-                </div>
+                {filtered.length < 1 ?
+                  (<div className="flex gap-2 items-center justify-center h-full">
+                    <p>Ainda não há artigos sobre o assunto</p>
+                    <p className="animate-pulse text-3xl mr-1 mb-3" style={{ animationDelay: '0s' }}>.</p>
+                    <p className="animate-pulse text-3xl mr-1 mb-3" style={{ animationDelay: '0.5s' }}>.</p>
+                    <p className="animate-pulse text-3xl mr-1 mb-3" style={{ animationDelay: '1s' }}>.</p>
+                  </div>)
+                  :
+                  (<div className="bg-[#897876] w-fit m-auto mt-10 rounded-[2rem]">
+                    <Box display="flex" justifyContent="center">
+                      <MuiPagination
+                        count={totalSlides}
+                        page={activeIndex + 1}
+                        onChange={handlePaginationChange}
+                      />
+                    </Box>
+                  </div>)}
+
               </div>
             </div>
-          </>
+          </div>
         )
       }
     </div>
