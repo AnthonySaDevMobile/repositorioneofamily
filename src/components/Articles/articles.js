@@ -84,16 +84,16 @@ export default function Articles() {
     const getArticles = async () => {
       const data = await getDocs(collectionRef);
       const desiredCategory = selectedArticleCategoria;
-
+  
       const blogData = data.docs
         .map((doc) => ({ ...doc.data(), id: doc.id }))
-        .filter((item) => item.categoria === desiredCategory);
-
+        .filter((item) => item.categoria === desiredCategory && item.id !== selectedArticleId);
+  
       setBlogArticles(blogData);
     };
-
+  
     getArticles();
-  }, [selectedArticleId, selectedArticleCategoria]);
+  }, [selectedArticleCategoria, selectedArticleId]);
 
 
   useEffect(() => {
