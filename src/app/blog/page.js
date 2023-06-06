@@ -7,8 +7,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import homeBlog from '../../../public/homeBlog.jpg';
 import Loading from "../loading";
-import Articles from "@/components/Articles/articles";
+
+
 export default function Blog() {
+   
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -37,13 +39,11 @@ export default function Blog() {
                                     <button className='text-white bg-[#d6b19f] rounded-[4rem] lg:px-32 px-20 lg:left-32 lg:text-[2rem] text-3xl lg:-bottom-14 left-10 -bottom-10 absolute lg:py-10 py-8'>Blog</button>
                                 </div>
                             </div>
-
-                  
-                                <SelectArticle />
-                         
-                            <Contato />
+                            <SelectArticle />
+                        <Contato />
                         </main>
                         <Footer />
+       
                     </div>)}
         </>
     )

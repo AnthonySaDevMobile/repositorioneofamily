@@ -1,17 +1,18 @@
 'use client'
+import { db, storage } from "@/services/firebaseConnection";
+import { format } from 'date-fns';
 import {
-    collection,
-    getDocs,
     addDoc,
-    doc,
+    collection,
     deleteDoc,
+    doc,
+    getDocs,
     query
 } from "firebase/firestore";
-import { db, storage } from "@/services/firebaseConnection";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import Image from "next/image";
-import { useEffect, useState, useRef } from "react";
-import { FaUpload, FaTrash } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
+import { FaTrash, FaUpload } from "react-icons/fa";
 import Logo from '../../../public/logoHeader.png';
 
 
@@ -36,6 +37,8 @@ export default function Write() {
     const [texto_final, setTexto_final] = useState("");
     const [textButton, setTextButton] = useState("Enviar Artigo!");
     const [textEdit, setTextEdit] = useState("Editar Artigos");
+    const currentDate = new Date();
+    const formattedDate = format(currentDate, "dd, MMM."); // Formata a data
 
 
     useEffect(() => {
@@ -69,6 +72,7 @@ export default function Write() {
             texto_final: texto_final,
             imagem: imageUrlFirebase,
             avatar: avatarUrlFirebase,
+            criado_em: formattedDate
         };
 
         await addDoc(collection(db, "blog"), blogData);
@@ -134,7 +138,7 @@ export default function Write() {
     }
 
     async function deleteItem(id) {
-      
+
         try {
             const itemRef = doc(db, "blog", id);
             await deleteDoc(itemRef);
@@ -179,6 +183,19 @@ export default function Write() {
             }
         }
     }
+
+
+    const handleResumoChange = (e) => {
+        setResumo(e.target.value);
+    };
+
+    const handleTextoInicialChange = (e) => {
+        setTexto_inicial(e.target.value);
+    };
+    const handleTextoFinalChange = (e) => {
+        setTexto_final(e.target.value);
+    };
+
 
     return (
         <div className="h-screen w-full">
@@ -249,10 +266,31 @@ export default function Write() {
                         </div>
                         <input type="text" required className="p-2 border-2 rounded-lg border-gray-400" placeholder="Categoria:" onChange={(e) => setCategoria(e.target.value)} />
                         <input type="text" required className="p-2 border-2 rounded-lg border-gray-400" placeholder="Título:" onChange={(e) => setTitulo(e.target.value)} />
-                        <textarea type="text" required className="p-2 resize-none border-2 rounded-lg h-[200px] border-gray-400" placeholder="Resumo:" onChange={(e) => setResumo(e.target.value)} />
-                        <textarea type="text" required className="p-2 resize-none border-2 rounded-lg h-[400px] border-gray-400" placeholder="Texto Inicial:" onChange={(e) => setTexto_inicial(e.target.value)} />
+                        <textarea
+                            type="text"
+                            required
+                            className="p-2 resize-none border-2 rounded-lg h-[200px] border-gray-400"
+                            placeholder="Resumo:"
+                            onChange={handleResumoChange}
+                            value={resumo}
+                        />
+                        <textarea
+                            type="text"
+                            required
+                            className="p-2 resize-none border-2 rounded-lg h-[400px] border-gray-400"
+                            placeholder="Texto Inicial:"
+                            onChange={handleTextoInicialChange}
+                            value={texto_inicial}
+                        />
                         <input type="text" className="p-2 border-2 rounded-lg border-gray-400" placeholder="SubTítulo:" onChange={(e) => setSubtitulo(e.target.value)} />
-                        <textarea type="text" className="p-2 resize-none border-2 rounded-lg h-[400px] border-gray-400" placeholder="Texto Final:" onChange={(e) => setTexto_final(e.target.value)} />
+                        <textarea
+                            type="text"
+                            required
+                            className="p-2 resize-none border-2 rounded-lg h-[400px] border-gray-400"
+                            placeholder="Texto Final:"
+                            onChange={handleTextoFinalChange}
+                            value={texto_final}
+                        />
                     </div>
                     <div className="mt-2 w-full ">
                         <button className="bg-[#897876] rounded text-white p-4">{textButton}</button>
@@ -260,43 +298,43 @@ export default function Write() {
                 </form>
                 <button onClick={handleClick} className="bg-[#897876] mt-20 rounded text-white p-4">{textEdit}</button>
 
-       {edit ? (
-  loading ? (
-    <div className="w-full h-fit flex items-center md:absolute md:left-1/2 gap-3 py-10 justify-start">
-      <p>Buscando Posts</p>
-      <div className="flex">
-        <div className="animate-pulse text-3xl mr-1" style={{ animationDelay: '0s' }}>.</div>
-        <div className="animate-pulse text-3xl mr-1" style={{ animationDelay: '0.5s' }}>.</div>
-        <div className="animate-pulse text-3xl mr-1" style={{ animationDelay: '1s' }}>.</div>
-      </div>
-    </div>
-  ) : (
-    <div className="flex flex-wrap justify-center md:grid md:grid-cols-2 gap-4 md:w-6/12 m-auto mt-20">
-      {blog.map((item) => (
-        <div key={item.id} className="w-full flex pb-5">
-          <div className="bg-[#f4f1ea] flex flex-col justify-between rounded-[4rem] text-center">
-            <div className="w-full">
-              <img src={item.imagem} alt="back" className="w-full rounded-[4rem] h-[200px] object-cover" />
-            </div>
+                {edit ? (
+                    loading ? (
+                        <div className="w-full h-fit flex items-center md:absolute md:left-1/2 gap-3 py-10 justify-start">
+                            <p>Buscando Posts</p>
+                            <div className="flex">
+                                <div className="animate-pulse text-3xl mr-1" style={{ animationDelay: '0s' }}>.</div>
+                                <div className="animate-pulse text-3xl mr-1" style={{ animationDelay: '0.5s' }}>.</div>
+                                <div className="animate-pulse text-3xl mr-1" style={{ animationDelay: '1s' }}>.</div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex flex-wrap justify-center md:grid md:grid-cols-2 gap-4 md:w-6/12 m-auto mt-20">
+                            {blog.map((item) => (
+                                <div key={item.id} className="w-full flex pb-5">
+                                    <div className="bg-[#f4f1ea] flex flex-col justify-between rounded-[4rem] text-center">
+                                        <div className="w-full">
+                                            <img src={item.imagem} alt="back" className="w-full rounded-[4rem] h-[200px] object-cover" />
+                                        </div>
 
-            <div className="pt-5 text-[#91817f] flex flex-col px-8 py-10 gap-5 relative">
-              <h1 className="text-[#d6b19f]">{item.titulo}</h1>
-              <p>{item.resumo}</p>
- 
-            </div>
+                                        <div className="pt-5 text-[#91817f] flex flex-col px-8 py-10 gap-5 relative">
+                                            <h1 className="text-[#d6b19f]">{item.titulo}</h1>
+                                            <p>{item.resumo}</p>
 
-            <span className="flex mt-10 flex-col items-center gap-4">
-              <FaTrash color="red" />
-              <p>Deletar</p>
-            </span>
-          </div>
-        </div>
-      ))}
-    </div>
-  )
-) : (
-  <></>
-)}
+                                        </div>
+
+                                        <span className="flex mt-10 flex-col items-center gap-4">
+                                            <FaTrash color="red" />
+                                            <p>Deletar</p>
+                                        </span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )
+                ) : (
+                    <></>
+                )}
             </main>
         </div>
     )

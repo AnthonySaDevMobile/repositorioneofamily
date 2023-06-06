@@ -48,3 +48,6 @@ html {
   border-radius: 100% !important;
   color: #897876 !important;
 }
+.modal-open {
+  overflow: hidden !important;
+}
