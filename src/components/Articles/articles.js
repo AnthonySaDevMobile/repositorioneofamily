@@ -254,7 +254,7 @@ export default function Articles() {
 
                                 <div className="pt-5 text-[#91817f] flex flex-col px-8 gap-5 relative">
                                   <h1 className="text-[#d6b19f]">{blogItem.titulo}</h1>
-                                  <p>{blogItem.resumo}</p>
+                                  <p className="text-[#a59896]">{blogItem.resumo}</p>
                                   <div className="flex items-center justify-center">
                                     <button onClick={() => handleArticle(blogItem.id, blogItem.categoria)} className="text-white bg-[#d6b19f] rounded-3xl w-6/12 text-sm mt-3 py-2">
                                       Continuar lendo

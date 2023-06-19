@@ -237,7 +237,7 @@ export default function ArticlesMobile() {
                         </div>
                         <div className='pt-5 text-[#91817f] flex flex-col px-8 py-10 gap-5 relative'>
                           <h1 className='text-[#d6b19f]'>{item.titulo}</h1>
-                          <p>{item.resumo}</p>
+                          <p className="text-[#a59896]">{item.resumo}</p>
                           <div className='flex  w-full items-center justify-center'>
                             <button onClick={() => handleArticle(item.id, item.categoria)} className='text-white bg-[#d6b19f] rounded-3xl w-6/12 text-sm -bottom-4 absolute py-2'>Continuar lendo</button>
                           </div>
