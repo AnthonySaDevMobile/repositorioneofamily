@@ -1,6 +1,7 @@
 'use client'
 import { db, storage } from "@/services/firebaseConnection";
 import { format } from 'date-fns';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import {
     addDoc,
     collection,
@@ -11,13 +12,13 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FaTrash, FaUpload } from "react-icons/fa";
 import Logo from '../../../public/logoHeader.png';
 
-
 export default function Write() {
-
+    const router = useRouter();
     const collectionRef = collection(db, "blog");
     const mapRef = useRef(null);
     const [loading, setLoading] = useState(true);
@@ -36,10 +37,20 @@ export default function Write() {
     const [texto_inicial, setTexto_inicial] = useState("");
     const [texto_final, setTexto_final] = useState("");
     const [textButton, setTextButton] = useState("Enviar Artigo!");
-    const [textEdit, setTextEdit] = useState("Editar Artigos");
+    const [editItem, setEditItem] = useState(null);
+    const [textEdit, setTextEdit] = useState("Ver Artigos");
     const currentDate = new Date();
     const formattedDate = format(currentDate, "dd, MMM."); // Formata a data
 
+    useEffect(() => {
+        checkAuth().then((isAuthenticated) => {
+            if (isAuthenticated) {
+                router.push('/write');
+            } else {
+                router.push('/auth');
+            }
+        });
+    }, []);
 
     useEffect(() => {
         const getBlog = async () => {
@@ -137,6 +148,69 @@ export default function Write() {
 
     }
 
+    // Função para atualizar os campos do formulário com os valores do item a ser editado
+    const editItemHandler = (item) => {
+        setEditItem(item);
+        setAvatarUrl(item.avatar);
+        setImageUrl(item.imagem);
+        setNome_do_profissional(item.nome_do_profissional);
+        setFormacao(item.formacao);
+        setCategoria(item.categoria);
+        setTitulo(item.titulo);
+        setResumo(item.resumo);
+        setTexto_inicial(item.texto_inicial);
+        setSubtitulo(item.subtitulo);
+        setTexto_final(item.texto_final);
+    };
+
+    // Função para limpar os campos do formulário
+    const clearForm = () => {
+        setEditItem(null);
+        setAvatarUrl("");
+        setImageUrl("");
+        setNome_do_profissional("");
+        setFormacao("");
+        setCategoria("");
+        setTitulo("");
+        setResumo("");
+        setTexto_inicial("");
+        setSubtitulo("");
+        setTexto_final("");
+    };
+
+    // Função para atualizar o item editado
+    const updateItem = async (e) => {
+        e.preventDefault();
+        setTextButton("Enviando...");
+        const imageUrlFirebase = await handleUpload();
+        const avatarUrlFirebase = await handleUploadAvatar();
+        const updatedItem = {
+            ...editItem,
+            nome_do_profissional: nome_do_profissional,
+            formacao: formacao,
+            categoria: categoria,
+            titulo: titulo,
+            resumo: resumo,
+            texto_inicial: texto_inicial,
+            subtitulo: subtitulo,
+            texto_final: texto_final,
+            imagem: imageUrlFirebase,
+            avatar: avatarUrlFirebase,
+        };
+
+        await updateDoc(doc(db, "blog", editItem.id), updatedItem);
+        const blogQuery = query(collection(db, "blog"));
+        const blogSnapshot = await getDocs(blogQuery);
+        const updatedBlog = blogSnapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+        }));
+        setBlog(updatedBlog);
+        clearForm();
+        setTextButton("Enviado!");
+    };
+
+
     async function deleteItem(id) {
 
         try {
@@ -196,15 +270,40 @@ export default function Write() {
         setTexto_final(e.target.value);
     };
 
+    async function checkAuth() {
+        const auth = getAuth();
+        return new Promise((resolve) => {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    resolve(true); // Usuário está autenticado
+                } else {
+                    resolve(false); // Usuário não está autenticado
+                }
+            });
+        });
+    }
 
+    const handleLogout = () => {
+        const auth = getAuth();
+
+        signOut(auth)
+            .then(() => {
+                router.push("/auth");
+            })
+            .catch((error) => {
+                console.log("Erro ao fazer logout:", error);
+            });
+    };
     return (
-        <div className="h-screen w-full">
+        <div className="h-screen w-full relative">
             <main className="bg-[#ece8dd] flex flex-col items-center w-full h-fit">
+                <div className="fixed right-6 pt-2 bg-[#d6b19f] top-1/2 flex flex-col gap-4 text-white font-extrabold w-1/12 text-center" onClick={handleLogout}>
+                    <span className="px-4">Por questões de segurança SEMPRE faça o</span>
+                    <button onClick={() => handleLogout()} className="bg-[#897876] p-2 rounded">Logout</button>
+                </div>
                 <div className="text-white bg-[#897876] w-full text-center h-fit pb-8">
                     <div className="flex flex-col items-center justify-center">
-
                         <h1 className="my-4 text-[4rem]">BLOG</h1>
-
                         <div className="flex justify-center">
                             <Image src={Logo} alt="logo" className="w-5/12 md:w-1/12 h-1/2 mb-2 object-cover" />
                         </div>
@@ -311,7 +410,7 @@ export default function Write() {
                     ) : (
                         <div className="flex flex-wrap justify-center md:grid md:grid-cols-2 gap-4 md:w-6/12 m-auto mt-20">
                             {blog.map((item) => (
-                                <div key={item.id} className="w-full flex pb-5">
+                                <div key={item.id} className="w-full flex ">
                                     <div className="bg-[#f4f1ea] flex flex-col justify-between rounded-[4rem] text-center">
                                         <div className="w-full">
                                             <img src={item.imagem} alt="back" className="w-full rounded-[4rem] h-[200px] object-cover" />
@@ -322,11 +421,14 @@ export default function Write() {
                                             <p>{item.resumo}</p>
 
                                         </div>
+                                        <div className="flex gap-10 items-center justify-center">
+                                           
+                                            <span onClick={() => deleteItem(item.id)} className="flex mt-10 flex-col items-center gap-4">
+                                                <FaTrash color="red" />
+                                                <p>Deletar</p>
+                                            </span>
+                                        </div>
 
-                                        <span className="flex mt-10 flex-col items-center gap-4">
-                                            <FaTrash color="red" />
-                                            <p>Deletar</p>
-                                        </span>
                                     </div>
                                 </div>
                             ))}
